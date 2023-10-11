@@ -1,16 +1,15 @@
+import "./Login.css";
 import { useState, useEffect } from "react";
 import { Form, Button } from "react-bootstrap";
-
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-
-// import { login } from "../../API/Users";
-
-import "./Login.css";
 import { LoginSchema } from "../../Schema/Schema";
 import { useNavigate } from "react-router-dom";
 import { login } from "../../API/API";
-// import _ from 'lodash'
+import {
+  showErrorToast,
+  successMessage,
+} from "../../Components/ToastMessages/ToastMessages";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -36,21 +35,21 @@ const Login = () => {
   const submit = async (data, event) => {
     event.preventDefault();
 
-    // LoginSchema.validate(data);
     try {
       const onLogin = await login(data);
-      console.log("🚀 ~ file: Login.jsx:44 ~ submit ~ data:", data);
 
       if (onLogin && onLogin !== "") {
         console.log("🚀 ~ file: Login.js:44 ~ submit ~ onLogin:", onLogin);
         localStorage.setItem("auth", true);
         localStorage.setItem("user", JSON.stringify(onLogin));
         const getUser = JSON.parse(localStorage.getItem("user"));
+        successMessage("SuccessFully Logged In");
         return navigate(`/home/${getUser.u_i_d}`, { replace: true });
       } else {
         setError("Wrong Credential");
       }
     } catch (err) {
+      showErrorToast("Something is wrong");
       console.log("🚀 ~ file: Login.js:54 ~ submit ~ err:", err);
     }
   };

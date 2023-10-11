@@ -1,25 +1,34 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 import { noteContext } from "../NotesList/NotesList";
 import { deleteNote } from "../../../../API/NotesAPI";
+import {
+  showErrorToast,
+  successMessage,
+} from "../../../../Components/ToastMessages/ToastMessages";
 
 export const DeleteNote = () => {
   const data = useContext(noteContext);
-  const { showDeleteNoteModal, deleteNoteHandleClose, currentNoteId,getUsers } = data;
+  const {
+    showDeleteNoteModal,
+    deleteNoteHandleClose,
+    currentNoteId,
+    getUsers,
+  } = data;
 
   const handleDeleteBoard = async () => {
     try {
       const response = await deleteNote(currentNoteId);
-      console.log(
-        "🚀 ~ file: DeleteNote.js:13 ~ handleDeleteBoard ~ response:",
-        response
-      );
+
       if (response.status === 200) {
+        successMessage("Note Deleted");
+
         deleteNoteHandleClose();
         getUsers();
       }
     } catch (error) {
       console.error("Error deleting board:", error);
+      showErrorToast("Somethings is wrong");
     }
   };
 

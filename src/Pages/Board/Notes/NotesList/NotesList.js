@@ -12,18 +12,16 @@ export const NotesList = ({ handleEditNote, reloadFlag }) => {
   const [totalNotes, SetTotalNotes] = useState([]);
   const [currentNoteId, setCurrentNoteId] = useState("");
   const [showDeleteNoteModal, setShowDeleteNoteModal] = useState(false);
-  const [showAddEditModal, setShowAddEditModal] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [priorityFilter, setPriorityFilter] = useState("All");
-  const [isEditing, setIsEditing] = useState(false);
-  const [totalLength, setTotalLength] = useState([]);
+  const getUser = JSON.parse(localStorage.getItem("user"));
+  const { id } = useParams();
 
   const deleteNoteHandleClose = () => setShowDeleteNoteModal(false);
   const deleteNoteHandleShow = (id) => {
     setCurrentNoteId(id);
     setShowDeleteNoteModal(true);
   };
-  const getUser = JSON.parse(localStorage.getItem("user"));
   const getUsers = async () => {
     try {
       const displayGameData = await getAllNotes();
@@ -45,9 +43,7 @@ export const NotesList = ({ handleEditNote, reloadFlag }) => {
     }
   }, [reloadFlag]);
 
-  const { id } = useParams();
-  console.log("🚀 ~ file: NotesList.js:44 ~ NotesList ~ id:", id);
-  const matchingNotes = totalNotes.filter((note) => note.boardUUID === id);
+  const matchingNotes = totalNotes.filter((note) => note.boardUUI_D === id);
   console.log(
     "🚀 ~ file: NotesList.js:46 ~ NotesList ~ matchingNotes:",
     matchingNotes
@@ -79,7 +75,14 @@ export const NotesList = ({ handleEditNote, reloadFlag }) => {
       priorityCounts.Low++;
     }
   });
+  let totalWords = 0;
+  filteredNotes.forEach((note) => {
+    const words = note.content.split(" ").length;
+    totalWords += words;
+  });
 
+  // const averageWordsPerNote =
+  //   totalWords > 0 ? totalWords / filteredNotes.length : 0;
   return (
     <div className="d-flex ">
       <div className="w-100">
@@ -88,10 +91,15 @@ export const NotesList = ({ handleEditNote, reloadFlag }) => {
             <div>Total Notes ({filteredNotes.length})</div> &nbsp;
             <span>/</span>
             <div className="priority-counts ms-2">
-              <span className="high_text">High </span> :{priorityCounts.High}
+              <span className="high_text">High </span> :{priorityCounts.High} :
+              &nbsp;
+              <span className="medium_text">Medium</span>: &nbsp;
               {priorityCounts.Medium} &nbsp;{" "}
               <span className="low_text">Low</span> : {priorityCounts.Low}
             </div>
+            &nbsp;
+            <span>/</span>&nbsp;
+            <div className="total-words">Total Words: {totalWords}</div>
           </div>
           <div className="d-flex justify-content-between">
             <div className="filter_note">

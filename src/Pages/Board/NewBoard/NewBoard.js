@@ -2,15 +2,16 @@ import { useContext, useEffect, useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 import { context } from "../BoardList/BoardList";
 import { v4 as uuidv4 } from "uuid";
-import _ from "lodash";
 import { addBoards } from "../../../API/BoardAPI";
+import {
+  showErrorToast,
+  successMessage,
+} from "../../../Components/ToastMessages/ToastMessages";
 
 export const NewBoard = () => {
   const data = useContext(context);
   const [error, setError] = useState("");
-  const { handleClose, show, setBoards, boards, value, setValue, getUsers } =
-    data;
-  console.log("🚀 ~ file: NewBoard.jsx:12 ~ NewBoard ~ boards:", boards);
+  const { handleClose, show, setBoards, value, setValue, getUsers } = data;
   const uuid = uuidv4();
   const getUser = JSON.parse(localStorage.getItem("user"));
 
@@ -36,29 +37,33 @@ export const NewBoard = () => {
 
   const submit = async (event) => {
     event.preventDefault();
-    if (value.value.trim() === "" || value.value.length === 0) {
-      setError("Title is required");
-      return;
-    } else if (error) {
-      return;
-    }
     try {
-      const response = await addBoards({
-        u_i_d: getUser.u_i_d,
-        title: value,
-        uuid: uuid,
-      });
-      console.log("New board created:", response.data);
-
-      setBoards({
-        uuid: "",
-        title: value,
-      });
-      getUsers();
-      handleClose();
-      setValue("");
-    } catch (error) {
-      console.error("Error creating a new board:", error);
+      if (value.value.trim() === "" || value.value.length === 0) {
+        setError("Title is required");
+        return;
+      } else if (error) {
+        return;
+      }
+      try {
+        const response = await addBoards({
+          u_i_d: getUser.u_i_d,
+          title: value,
+          uuid: uuid,
+        });
+        console.log("New board created:", response.data);
+        successMessage("New Board Added");
+        setBoards({
+          uuid: "",
+          title: value,
+        });
+        getUsers();
+        handleClose();
+        setValue("");
+      } catch (error) {
+        console.error("Error creating a new board:", error);
+      }
+    } catch (err) {
+      showErrorToast("Somethings is wrong");
     }
   };
 

@@ -91,37 +91,3 @@ export const Notes = yup.object().shape({
     })
     .nullable(),
 });
-
-export const EditNotes = yup.object().shape({
-  title: yup
-    .string()
-    .required("Title Is Required")
-    .min(4, "Title must be at least 4 characters")
-    .max(12, "Title must be less then 12 characters")
-    .transform((value) => {
-      return value ? value.trim() : value;
-    }),
-  content: yup
-    .string()
-    .required("Content Is Required")
-    .min(1, "title must be at least 1 characters")
-    .transform((value) => {
-      return value ? value.trim() : value;
-    }),
-
-  priority: yup
-    .object()
-    .shape({
-      label: yup.string().required("Priority in Required"),
-      value: yup.string().required("Priority in Required"),
-    })
-    .nullable()
-    .required("Please Select Priority"),
-  boards: yup
-    .object()
-    .shape({
-      label: yup.string(),
-      value: yup.string(),
-    })
-    .nullable(),
-});

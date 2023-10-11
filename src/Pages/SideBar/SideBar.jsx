@@ -1,14 +1,13 @@
 import React, { useState } from 'react'
 import '../SideBar/SideBar.css'
-import { Button, Form, Nav, Navbar } from 'react-bootstrap'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { Form, Nav, Navbar } from 'react-bootstrap'
+import { useNavigate, useParams } from 'react-router-dom'
 import { context } from '../Board/BoardList/BoardList'
 import { useContext } from 'react'
 import trash from '../../../src/assets/table-trash.svg'
 import { DeleteBoard } from '../Board/DeleteBoard/DeleteBoard'
 
 const SideBar = () => {
-    const getUser = JSON.parse(localStorage.getItem("user"));
     const navigate = useNavigate()
     const show = useContext(context);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -23,9 +22,7 @@ const SideBar = () => {
     const goGoBoard = (userId) => {
         navigate(`/board/${userId}`)
     }
-    const goGoHome = (userId) => {
-        navigate(`/home/${getUser.u_i_d}`)
-    }
+
     const { handleShow, totalBoards } = show
     return (
         <div className="sidebar ">
@@ -34,7 +31,6 @@ const SideBar = () => {
                     height: '55px',
                     borderBottom: '1px solid rgba(255,255,255,0.3) ',
                     display: 'flex',
-                    // justifyContent: 'center',
                 }}
             >
                 <Navbar.Brand className="ms-2 p-0  my-auto">

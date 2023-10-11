@@ -6,7 +6,10 @@ import { useForm } from "react-hook-form";
 import { Notes } from "../../../Schema/Schema";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { addNotes, updateNote } from "../../../API/NotesAPI";
-import moment from "moment";
+import {
+  showErrorToast,
+  successMessage,
+} from "../../../Components/ToastMessages/ToastMessages";
 
 export const AddNote = () => {
   const data = useContext(context);
@@ -20,11 +23,7 @@ export const AddNote = () => {
     noteToEdit,
     setIsEditing,
     getUsers,
-    addNoteHandleShow,
-    // setNoteToEdit,
-    // setIsEditing
   } = data;
-  console.log("🚀 ~ file: AddNote.js:26 ~ AddNote ~ isEditing:", isEditing);
   const {
     register,
     handleSubmit,
@@ -60,21 +59,16 @@ export const AddNote = () => {
         "boards",
         board_value.find((s) => s.value === noteToEdit.boards.value) || ""
       );
+    } else {
+      setValue("title", "");
+      setValue("content", "");
+      setValue("priority", {});
+      setValue("boards", {});
     }
   };
 
   useEffect(() => {
-    if (!isEditing) {
-      console.log(
-        "🚀 ~ file: AddNote.js:65 ~ useEffect ~ isEditing:",
-        isEditing
-      );
-      // setValue("title", "");
-      // setValue("content", "");
-      reset();
-    } else {
-      getNotesData();
-    }
+    getNotesData();
   }, [noteToEdit, isEditing]);
 
   const titles = totalBoards?.map((board) => board.title);
@@ -88,15 +82,15 @@ export const AddNote = () => {
       const selectedBoard = totalBoards.find(
         (board) => board.title === selectedBoardTitle
       );
-      const boardId = selectedBoard ? selectedBoard.id : null;
-      const boardUUID = selectedBoard ? selectedBoard.uuid : null;
+      const boardI_d = selectedBoard ? selectedBoard.id : null;
+      const boardUUI_D = selectedBoard ? selectedBoard.uuid : null;
 
       const postData = {
         u_i_d: getUser.u_i_d,
         ...data,
-        boardId: boardId,
+        boardI_d: boardI_d,
         time: new Date(),
-        boardUUID: boardUUID,
+        boardUUI_D: boardUUI_D,
       };
 
       if (isEditing) {
@@ -109,9 +103,11 @@ export const AddNote = () => {
             setIsEditing(false);
             addNoteHandleClose();
             getUsers();
+            successMessage("Note Updated");
           })
           .catch((err) => {
             console.error("Error updating note:", err);
+            showErrorToast("Somethins is wronf");
           });
       } else {
         setIsEditing(false);
@@ -121,9 +117,11 @@ export const AddNote = () => {
             reset();
             addNoteHandleClose();
             getUsers();
+            successMessage("New Note Added");
           })
           .catch((err) => {
             console.error("Error adding note:", err);
+            showErrorToast("Somethins is wronf");
           });
       }
     } catch (err) {

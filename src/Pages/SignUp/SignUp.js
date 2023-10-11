@@ -9,6 +9,10 @@ import { SignUpSchema } from "../../Schema/Schema";
 import { addUser } from "../../API/API";
 import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
+import {
+  showErrorToast,
+  signUpSuccessMessage,
+} from "../../Components/ToastMessages/ToastMessages";
 
 function SignUp() {
   const navigate = useNavigate();
@@ -30,21 +34,30 @@ function SignUp() {
   const submit = async (data, event) => {
     event.preventDefault();
 
-    let updatedData = _.cloneDeep(data);
-    updatedData = { ...updatedData, ...data, u_i_d: uuid };
+    try {
+      let updatedData = _.cloneDeep(data);
+      updatedData = { ...updatedData, ...data, u_i_d: uuid };
 
-    updatedData.createdAt = CreatedTimeDate;
-    delete updatedData.confirmPassword;
-    console.log("🚀 ~ file: SignUp.js:32 ~ submit ~ updatedData:", updatedData);
+      updatedData.createdAt = CreatedTimeDate;
+      delete updatedData.confirmPassword;
+      console.log(
+        "🚀 ~ file: SignUp.js:32 ~ submit ~ updatedData:",
+        updatedData
+      );
 
-    const newUser = await addUser(updatedData);
-    if (newUser && data.password === data.confirmPassword) {
-      reset({ confirmPassword: "" });
-      navigate("/login");
-    } else if (data.confirmPassword !== data.password) {
-      setError("Please Check Confirm Password");
-    } else {
-      setError("");
+      const newUser = await addUser(updatedData);
+      if (newUser && data.password === data.confirmPassword) {
+        reset({ confirmPassword: "" });
+        signUpSuccessMessage("Succesefully SignUP");
+
+        navigate("/login");
+      } else if (data.confirmPassword !== data.password) {
+        setError("Please Check Confirm Password");
+      } else {
+        setError("");
+      }
+    } catch (err) {
+      showErrorToast("Somethings is wrong");
     }
   };
 

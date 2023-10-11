@@ -1,8 +1,11 @@
-import React, {useContext} from "react";
+import React, { useContext } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
-import axios from "axios";
 import { context } from "../BoardList/BoardList";
 import { deleteBoard } from "../../../API/BoardAPI";
+import {
+  showErrorToast,
+  successMessage,
+} from "../../../Components/ToastMessages/ToastMessages";
 
 export const DeleteBoard = ({
   showDeleteModal,
@@ -10,23 +13,19 @@ export const DeleteBoard = ({
   selectedBoardId,
   setShowDeleteModal,
 }) => {
-
   const data = useContext(context);
-  const {getUsers } =
-    data;
-  console.log(
-    "🚀 ~ file: DeleteBoard.jsx:6 ~ DeleteBoard ~ selectedBoardId:",
-    selectedBoardId
-  );
+  const { getUsers } = data;
 
   const handleDeleteBoard = async () => {
     try {
       const response = await deleteBoard(selectedBoardId);
-      if(response.data){
+      successMessage("Board Deleted");
+      if (response.data) {
         getUsers();
         handleCloseDeleteModal();
       }
     } catch (error) {
+      showErrorToast("Something is wrong");
       console.error("Error deleting data:", error);
     }
   };
