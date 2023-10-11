@@ -1,0 +1,62 @@
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.notes {
+  width: "14rem";
+  max-width: 14rem;
+  margin-bottom: "10px";
+  overflow: "auto";
+}
+
+.search_bar input {
+  border-radius: 7px;
+  box-sizing: 10px 2px 0 0;
+  box-shadow: 1px 1px 7px 0px;
+  border: none !important;
+}
+
+.search_bar {
+  display: flex;
+  margin-top: 20px;
+  margin-right: 12px;
+}
+
+.filter_note select {
+  width: 150px;
+  height: 33px;
+  border: 1px solid;
+  background-color: white;
+  box-shadow: 0px 1px 5px 0px;
+  border: none;
+}
+
+.filter_note {
+  margin: 0 10px 3px 0;
+}
+
+.high {
+  background-color: rgb(115 165 115);
+  margin: 5px;
+}
+
+.medium {
+  background-color: rgb(197 197 123);
+  margin: 5px;
+}
+.low {
+  background-color: rgb(191 118 118);
+  margin: 5px;
+}
+.high_text {
+  color: rgb(54 120 54);
+}
+
+.medium_text {
+  color: rgb(149 149 31);
+}
+.low_text {
+  color: rgb(203 100 100);
+}

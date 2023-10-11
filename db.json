@@ -1,0 +1,100 @@
+{
+  "users": [
+    {
+      "firstName": "yash",
+      "lastName": "Bhatt",
+      "email": "yashbhatt078@gmail.com",
+      "password": "11111111",
+      "u_i_d": "07688e8b-412f-403e-a6d9-d92ab367b7ea",
+      "createdAt": "October 11th 2023",
+      "id": 1
+    }
+  ],
+  "boards": [
+    {
+      "u_i_d": "07688e8b-412f-403e-a6d9-d92ab367b7ea",
+      "title": {
+        "label": "boards1",
+        "value": "boards1"
+      },
+      "uuid": "f66309fa-7cc1-45d7-a6ea-632be189d193",
+      "id": 1
+    },
+    {
+      "u_i_d": "07688e8b-412f-403e-a6d9-d92ab367b7ea",
+      "title": {
+        "label": "heyyyyyy",
+        "value": "heyyyyyy"
+      },
+      "uuid": "a0731e27-5eae-48e8-909f-646289e2c12f",
+      "id": 2
+    }
+  ],
+  "notes": [
+    {
+      "u_i_d": "07688e8b-412f-403e-a6d9-d92ab367b7ea",
+      "title": "hbhbfgh",
+      "content": "gfgfdgdhg",
+      "priority": {
+        "label": "Medium",
+        "value": "Medium"
+      },
+      "boards": {
+        "label": "boards1",
+        "value": "boards1"
+      },
+      "boardId": null,
+      "time": "2023-10-11T12:45:51.813Z",
+      "boardUUID": null,
+      "id": 1
+    },
+    {
+      "u_i_d": "07688e8b-412f-403e-a6d9-d92ab367b7ea",
+      "title": "fgfgfg",
+      "content": "gfgfgf",
+      "priority": {
+        "label": "Low",
+        "value": "Low"
+      },
+      "boards": {
+        "label": "heyyyyyy",
+        "value": "heyyyyyy"
+      },
+      "boardId": null,
+      "time": "2023-10-11T12:12:23.333Z",
+      "boardUUID": null,
+      "id": 2
+    },
+    {
+      "u_i_d": "07688e8b-412f-403e-a6d9-d92ab367b7ea",
+      "boards": {},
+      "priority": {
+        "label": "Medium",
+        "value": "Medium"
+      },
+      "content": "dsds",
+      "title": "dsds",
+      "boardId": null,
+      "time": "2023-10-11T11:53:48.203Z",
+      "boardUUID": null,
+      "id": 3
+    },
+    {
+      "u_i_d": "07688e8b-412f-403e-a6d9-d92ab367b7ea",
+      "title": "heygfd",
+      "content": "gfgfgfg",
+      "priority": {
+        "label": "Medium",
+        "value": "Medium"
+      },
+      "boards": {
+        "label": "heyyyyyy",
+        "value": "heyyyyyy"
+      },
+      "boardId": 2,
+      "time": "2023-10-11T12:02:40.653Z",
+      "boardUUID": "a0731e27-5eae-48e8-909f-646289e2c12f",
+      "id": 4
+    }
+  ]
+}
