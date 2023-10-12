@@ -6,14 +6,14 @@ import reportWebVitals from "./reportWebVitals";
 import axios from "axios";
 import { BrowserRouter } from "react-router-dom";
 import Header from "./Components/Header/Header";
-import { ToastContainer } from "react-bootstrap";
+import ToastMessages from "./Components/ToastMessages/ToastMessages";
 
 axios.defaults.baseURL = "http://localhost:7000/";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <BrowserRouter>
-    <ToastContainer />
+    <ToastMessages />
     <App />
   </BrowserRouter>
 );
