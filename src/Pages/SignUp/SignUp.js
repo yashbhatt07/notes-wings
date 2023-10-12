@@ -13,6 +13,7 @@ import {
   showErrorToast,
   signUpSuccessMessage,
 } from "../../Components/ToastMessages/ToastMessages";
+import axios from "axios";
 
 function SignUp() {
   const navigate = useNavigate();
@@ -35,29 +36,41 @@ function SignUp() {
     event.preventDefault();
 
     try {
-      let updatedData = _.cloneDeep(data);
-      updatedData = { ...updatedData, ...data, u_i_d: uuid };
+      const response = await axios.get("users");
+      const existingUsers = response.data;
 
-      updatedData.createdAt = CreatedTimeDate;
-      delete updatedData.confirmPassword;
+      const userWithEmailExists = existingUsers.some(
+        (user) => user.email === data.email
+      );
       console.log(
-        "🚀 ~ file: SignUp.js:32 ~ submit ~ updatedData:",
-        updatedData
+        "🚀 ~ file: SignUp.js:45 ~ submit ~ userWithEmailExists:",
+        userWithEmailExists
       );
 
-      const newUser = await addUser(updatedData);
-      if (newUser && data.password === data.confirmPassword) {
-        reset({ confirmPassword: "" });
-        signUpSuccessMessage("Succesefully SignUP");
+      if (userWithEmailExists) {
+        setError("User with this email already exists");
+      } else if (!userWithEmailExists) {
+        let updatedData = _.cloneDeep(data);
+        updatedData = { ...updatedData, ...data, u_i_d: uuid };
 
-        navigate("/login");
-      } else if (data.confirmPassword !== data.password) {
-        setError("Please Check Confirm Password");
-      } else {
-        setError("");
+        updatedData.createdAt = CreatedTimeDate;
+        delete updatedData.confirmPassword;
+
+        const newUser = await addUser(updatedData);
+
+        if (newUser && data.password === data.confirmPassword) {
+          reset({ confirmPassword: "" });
+
+          navigate("/login");
+          signUpSuccessMessage("Successfully SignUP");
+        } else if (data.confirmPassword !== data.password) {
+          setError("Please Check Confirm Password");
+        } else {
+          setError("");
+        }
       }
     } catch (err) {
-      showErrorToast("Somethings is wrong");
+      showErrorToast("Something went wrong");
     }
   };
 
